@@ -21,6 +21,10 @@ export type MultiTypeJsonSchema<T extends JsonSchemaType = JsonSchemaType> = Rea
   type: readonly T[];
 }>;
 
+export type UniOrMultiTypeJsonSchema<T extends JsonSchemaType = JsonSchemaType> =
+  | UniTypeJsonSchema<T>
+  | MultiTypeJsonSchema<T>;
+
 export type EmptyMultiTypeJsonSchema = Readonly<{
   type: readonly [];
 }>;

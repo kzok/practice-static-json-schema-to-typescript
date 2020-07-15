@@ -1,10 +1,4 @@
-import {
-  BooleanType,
-  NumberType,
-  StringType,
-  NullType,
-  UniTypeJsonSchema,
-} from "./syntax";
+import {BooleanType, NumberType, StringType, NullType, UniTypeJsonSchema} from "./syntax";
 
 type MapSchemaTypeToPrimitiveType<T> = T extends BooleanType
   ? boolean
