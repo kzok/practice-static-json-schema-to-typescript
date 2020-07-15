@@ -2,8 +2,24 @@
   "private": true,
   "scripts": {
     "fmt": "eslint ./src/**/*.ts{,x} --fix",
-    "type-check": "tsc --noEmit --watch",
+    "type-check": "tsc --noEmit",
+    "type-check-watch": "tsc --noEmit --watch",
     "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run type-check && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^26.0.4",
@@ -12,7 +28,9 @@
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.1",
     "tslib": "^2.0.0",
