@@ -3,7 +3,7 @@ import {
   MultiTypeJsonSchema,
   EmptyMultiTypeJsonSchema,
 } from "./syntax";
-import {MapPrimitiveType} from "./primitive_type";
+import {MapPrimitiveType} from "./primitive";
 
 type MapUniTypeJsonSchema<T extends UniTypeJsonSchema> = MapPrimitiveType<T>;
 

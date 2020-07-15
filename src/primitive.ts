@@ -3,11 +3,10 @@ import {
   NumberType,
   StringType,
   NullType,
-  JsonSchemaType,
   UniTypeJsonSchema,
 } from "./syntax";
 
-type MapSchemaTypeToPrimitiveType<T extends JsonSchemaType> = T extends BooleanType
+type MapSchemaTypeToPrimitiveType<T> = T extends BooleanType
   ? boolean
   : never | T extends NumberType
   ? number

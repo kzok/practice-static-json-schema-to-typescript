@@ -1,6 +1,6 @@
 import {staticAssert, Equals} from "../static_assert";
 
-import {MapPrimitiveType} from "../primitive_type";
+import {MapPrimitiveType} from "../primitive";
 
 describe("Primitive types", () => {
   it("string", () => {
