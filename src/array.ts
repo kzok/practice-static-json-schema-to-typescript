@@ -7,7 +7,7 @@ type ArraySchema<T extends UniOrMultiTypeJsonSchema> = UniTypeJsonSchema<ArrayTy
   }>;
 
 export type MapArrayType<T extends UniTypeJsonSchema> = T extends ArraySchema<infer R>
-  ? ParseJsonSchema<R>[] // array schema without "items" property
+  ? ParseJsonSchema<R>[]
   : T extends UniTypeJsonSchema<ArrayType>
   ? unknown[]
   : never;
