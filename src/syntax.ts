@@ -28,3 +28,13 @@ export type UniOrMultiTypeJsonSchema<T extends JsonSchemaType = JsonSchemaType> 
 export type EmptyMultiTypeJsonSchema = Readonly<{
   type: readonly [];
 }>;
+
+export type ConvertMultiTypeJsonSchemaIntoUniType<
+  T extends UniOrMultiTypeJsonSchema
+> = T extends UniTypeJsonSchema
+  ? T
+  : T extends EmptyMultiTypeJsonSchema
+  ? never
+  : T extends MultiTypeJsonSchema<infer R>
+  ? Readonly<{[K in R]: UniTypeJsonSchema<K>}[R] & Omit<T, "type">>
+  : never;

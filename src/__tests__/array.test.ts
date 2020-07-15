@@ -2,7 +2,7 @@ import {staticAssert, Equals} from "../static_assert";
 
 import {MapArrayType} from "../array";
 
-describe("Array types", () => {
+describe("MapArrayType", () => {
   it("not array", () => {
     type Expected = never;
     type Actual = MapArrayType<{type: "string"}>;
