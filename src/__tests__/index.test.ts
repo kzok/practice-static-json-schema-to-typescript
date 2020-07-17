@@ -32,4 +32,40 @@ describe("ParseJsonSchema", () => {
     type Actual = ParseJsonSchema<{type: ["array", "null"]; items: {type: "string"}}>;
     staticAssert<Equals<Actual, Expected>>();
   });
+
+  it("simple object type", () => {
+    type Expected = {
+      foo: string;
+      bar: number;
+    } & {
+      baz?: boolean;
+    };
+    type Actual = ParseJsonSchema<{
+      type: "object";
+      properties: {
+        foo: {type: "string"};
+        bar: {type: "number"};
+        baz: {type: "boolean"};
+      };
+      required: ["foo", "bar"];
+    }>;
+    staticAssert<Equals<Actual, Expected>>();
+  });
+
+  it("simple array in simple object", () => {
+    type Expected = {[_ in never]: never} & {
+      names: string[];
+    };
+    type Actual = ParseJsonSchema<{
+      type: "object";
+      properties: {
+        names: {
+          type: "array";
+          items: {type: "string"};
+        };
+      };
+      required: ["names"];
+    }>;
+    staticAssert<Equals<Actual, Expected>>();
+  });
 });
