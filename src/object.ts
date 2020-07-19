@@ -1,27 +1,34 @@
 import {ObjectType, UniTypeJsonSchema, UniOrMultiTypeJsonSchema} from "./syntax";
 import {ParseJsonSchema} from "./index";
 
-type HasProperties<T extends Record<string, UniOrMultiTypeJsonSchema>> = UniTypeJsonSchema<
-  ObjectType
-> &
+type ObjectJsonSchema = UniTypeJsonSchema<ObjectType>;
+
+type UnknownObject = Partial<{[k: string]: unknown}>;
+
+// required
+
+type WithRequired<K extends string> = ObjectJsonSchema & Readonly<{required: readonly K[]}>;
+
+type RequiredKeys<T extends ObjectJsonSchema> = T extends WithRequired<infer R> ? R : never;
+
+// properties
+
+type JsonSchemaProperties = Readonly<Record<string, UniOrMultiTypeJsonSchema>>;
+
+type WithProperties<T extends JsonSchemaProperties> = ObjectJsonSchema &
   Readonly<{
     properties: T;
   }>;
 
-type UnknownObject = Partial<{[k: string]: unknown}>;
-
-type HasRequired<K extends string> = UniTypeJsonSchema<ObjectType> &
-  Readonly<{required: readonly K[]}>;
-
-type Required<T extends UniTypeJsonSchema> = T extends HasRequired<infer R> ? R : never;
-
-type MapObjectHasProperties<T extends HasProperties<any>> = T extends HasProperties<infer R>
-  ? {[K in Extract<keyof R, Required<T>>]: ParseJsonSchema<R[K]>} &
-      {[K in Exclude<keyof R, Required<T>>]?: ParseJsonSchema<R[K]>}
+type MapWithProperties<T extends WithProperties<any>> = T extends WithProperties<infer P>
+  ? {[K in Extract<keyof P, RequiredKeys<T>>]: ParseJsonSchema<P[K]>} &
+      {[K in Exclude<keyof P, RequiredKeys<T>>]?: ParseJsonSchema<P[K]>}
   : never;
 
-export type MapObjectType<T extends UniTypeJsonSchema> = T extends HasProperties<any>
-  ? MapObjectHasProperties<T>
-  : T extends UniTypeJsonSchema<ObjectType>
-  ? UnknownObject
+// ---
+
+export type MapObjectType<T extends UniTypeJsonSchema> = T extends ObjectJsonSchema
+  ? T extends WithProperties<any>
+    ? MapWithProperties<T>
+    : UnknownObject
   : never;
