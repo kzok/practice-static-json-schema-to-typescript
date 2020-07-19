@@ -30,7 +30,7 @@ type ValidatedType = ParseJsonSchema<typeof schema>;
   - [ ] additionalItems
 - [x] object
   - [x] properties
-  - [ ] additionalProperties
+  - [x] additionalProperties
 - [ ] enum
 - [ ] allOf (unneeded?)
 - [ ] anyOf

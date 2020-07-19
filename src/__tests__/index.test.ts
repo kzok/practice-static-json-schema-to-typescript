@@ -37,9 +37,7 @@ describe("ParseJsonSchema", () => {
     type Expected = {
       foo: string;
       bar: number;
-    } & {
-      baz?: boolean;
-    };
+    } & {baz?: boolean} & {[_: string]: any};
     type Actual = ParseJsonSchema<{
       type: "object";
       properties: {
@@ -53,9 +51,7 @@ describe("ParseJsonSchema", () => {
   });
 
   it("simple array in simple object", () => {
-    type Expected = {[_ in never]: never} & {
-      names: string[];
-    };
+    type Expected = {[_ in never]: never} & {names: string[]} & {[_: string]: any};
     type Actual = ParseJsonSchema<{
       type: "object";
       properties: {

@@ -25,10 +25,19 @@ type MapWithProperties<T extends WithProperties<any>> = T extends WithProperties
       {[K in Exclude<keyof P, RequiredKeys<T>>]?: ParseJsonSchema<P[K]>}
   : never;
 
+// additionalProperties
+
+type NoAdditionalProperties = Readonly<{additionalProperties: false}>;
+
+type EffectAdditionalProperties<
+  T extends ObjectJsonSchema,
+  RESULT extends UnknownObject
+> = T extends NoAdditionalProperties ? RESULT : RESULT & {[_: string]: any};
+
 // ---
 
 export type MapObjectType<T extends UniTypeJsonSchema> = T extends ObjectJsonSchema
   ? T extends WithProperties<any>
-    ? MapWithProperties<T>
+    ? EffectAdditionalProperties<T, MapWithProperties<T>>
     : UnknownObject
   : never;

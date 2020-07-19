@@ -14,7 +14,7 @@ describe("MapObjectType", () => {
       foo?: string;
       bar?: number;
       baz?: boolean;
-    };
+    } & {[_: string]: any};
     type Actual = MapObjectType<{
       type: "object";
       properties: {
@@ -30,9 +30,7 @@ describe("MapObjectType", () => {
     type Expected = {
       foo: string;
       bar: number;
-    } & {
-      baz?: boolean;
-    };
+    } & {baz?: boolean} & {[_: string]: any};
     type Actual = MapObjectType<{
       type: "object";
       properties: {
@@ -41,6 +39,24 @@ describe("MapObjectType", () => {
         baz: {type: "boolean"};
       };
       required: ["foo", "bar"];
+    }>;
+    staticAssert<Equals<Actual, Expected>>();
+  });
+
+  it("additionalProperties: false", () => {
+    type Expected = {
+      foo: string;
+      bar: number;
+    } & {baz?: boolean};
+    type Actual = MapObjectType<{
+      type: "object";
+      properties: {
+        foo: {type: "string"};
+        bar: {type: "number"};
+        baz: {type: "boolean"};
+      };
+      required: ["foo", "bar"];
+      additionalProperties: false;
     }>;
     staticAssert<Equals<Actual, Expected>>();
   });
